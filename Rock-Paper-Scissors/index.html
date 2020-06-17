@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function computerPlay()
+        {
+                let random = Math.floor(Math.random() * 10 - 1);
+                console.log(random);
+                if(random >= 0 && random <= 2)
+                {   
+                     return "SCISSORS";
+                 }
+                else if(random >= 3 && random <= 5)
+                {
+                     return "PAPER";
+                 }
+                 else
+                 {
+                    return "ROCK";
+                 }
+        }
+
+
+        function play(computerSelection, playerSelection)
+        { 
+            let message = "Computer plays " + computerSelection + "\nYou play " + playerSelection + "\n\n";
+            if (playerSelection === "ROCK" && computerSelection === "SCISSORS" 
+                     || playerSelection === "PAPER" && computerSelection === "ROCK" 
+                     || playerSelection === "SCISSORS" && computerSelection === "PAPER")
+            {
+                alert(message + " You won this round!");
+                return 1;
+            }
+            else if (computerSelection === "ROCK" && playerSelection === "SCISSORS" 
+                     || computerSelection === "PAPER" && playerSelection === "ROCK" 
+                     || computerSelection === "SCISSORS" && playerSelection === "PAPER")
+            {
+                alert(message + " You lost this round");
+                return 2;
+            }
+          //replay if a draw
+          //(playerSelection.localeCompare(computerSelection) === 0)
+          else  
+          {
+                alert(message + "DRAW! - Let's play again! ");
+                playerSelection = legalMove(prompt("Pick your move: "));
+                return play(computerPlay(), playerSelection);
+            }
+          
+        }
+        function game()
+        {
+            let computerScore = 0;
+            let playerScore = 0;
+            let scoreString = "";
+            for (let i = 0; i < 5; i++)
+            {   
+                let playerMove = prompt(scoreString + "\n\nRound " + (i + 1) + "\n\n Pick your move: ");
+              //call function to check player has input rock paper or scissors
+              playerMove = legalMove(playerMove);
+              
+                switch (play(computerPlay(), playerMove))
+                {
+                    //case 0:
+                        //playerMove = prompt("Pick your move: ");
+                        //play(computerPlay(), playerMove);
+                    case 1:
+                        playerScore++;
+                        break;
+                    case 2:
+                        computerScore++ ;
+                        break;
+                }
+                
+                scoreString = "Computer score: " + computerScore + " Player score: " + playerScore;
+                //display current score     
+            }
+            //decide winner
+            if (computerScore > playerScore)
+            {
+                alert(scoreString + "\n\nComputer wins!");
+            }
+            else if (computerScore < playerScore)
+            {
+                alert(scoreString + "\n\nYou win!");
+            }
+        return 0;
+        }
+
+        function legalMove(playerMove)
+        {
+            playerMove = playerMove.toUpperCase();
+             //test is player has done a legal move
+            if (playerMove.localeCompare("SCISSORS") !== 0 && playerMove.localeCompare("ROCK") !== 0 && playerMove.localeCompare("PAPER") !== 0 )
+            {
+                playerMove = prompt("Please choose ROCK, PAPER or SCISSORS: ");
+                legalMove(playerMove); 
+            }
+            return playerMove;
+        }
+        game();
+
+    </script>
+</body>
+</html>
